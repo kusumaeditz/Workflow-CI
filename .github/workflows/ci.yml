@@ -72,9 +72,11 @@ jobs:
       - name: Build Docker Image
         run: |
           RUN_ID=$(ls MLProject/mlruns/0/ | grep -v meta | head -1)
+          echo "Run ID: $RUN_ID"
           mlflow models build-docker \
-            --model-uri "MLProject/mlruns/0/${RUN_ID}/artifacts/model" \
-            --name ${{ secrets.DOCKER_USERNAME }}/credit-risk-model:latest
+            --model-uri "runs:/${RUN_ID}/model" \
+            --name ${{ secrets.DOCKER_USERNAME }}/credit-risk-model:latest \
+            --env-manager local
 
       # 11. Push Docker Image
       - name: Push Docker Image
