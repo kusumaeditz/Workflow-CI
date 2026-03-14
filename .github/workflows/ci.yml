@@ -71,12 +71,11 @@ jobs:
       # 10. Build Docker Image
       - name: Build Docker Image
         run: |
-          EXPERIMENT_ID=$(ls MLProject/mlruns/ | grep -v meta | head -1)
-          RUN_ID=$(ls MLProject/mlruns/${EXPERIMENT_ID}/ | grep -v meta | head -1)
-          echo "Experiment ID: $EXPERIMENT_ID"
-          echo "Run ID: $RUN_ID"
+          find MLProject/mlruns -name "MLmodel" | head -1
+          MODEL_PATH=$(find MLProject/mlruns -name "MLmodel" | head -1 | xargs dirname)
+          echo "Model path: $MODEL_PATH"
           mlflow models build-docker \
-            --model-uri "MLProject/mlruns/${EXPERIMENT_ID}/${RUN_ID}/artifacts/model" \
+            --model-uri "$MODEL_PATH" \
             --name ${{ secrets.DOCKER_USERNAME }}/credit-risk-model:latest \
             --env-manager local
             
