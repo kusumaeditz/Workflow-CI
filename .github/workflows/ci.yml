@@ -25,6 +25,11 @@ jobs:
         run: |
           pip install mlflow==2.19.0 scikit-learn pandas numpy matplotlib seaborn conda-pack
 
+      # ── 3.1 Clean mlruns ──────────────────────────────
+      - name: Clean mlruns
+        run: |
+          rm -rf mlruns outputs
+
       # ── 4. Run MLflow Project ─────────────────────────
       - name: Run MLflow Project
         env:
