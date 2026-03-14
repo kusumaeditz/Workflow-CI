@@ -34,8 +34,8 @@ mlflow.set_experiment("credit_risk_ci")
 # ─────────────────────────────────────────────
 # LOAD DATA
 # ─────────────────────────────────────────────
-train = pd.read_csv("MLProject/credit_risk_dataset_preprocessing/train.csv")
-test  = pd.read_csv("MLProject/credit_risk_dataset_preprocessing/test.csv")
+train = pd.read_csv("credit_risk_dataset_preprocessing/train.csv")
+test  = pd.read_csv("credit_risk_dataset_preprocessing/test.csv")
 
 TARGET = "loan_status"
 X_train = train.drop(columns=[TARGET])
