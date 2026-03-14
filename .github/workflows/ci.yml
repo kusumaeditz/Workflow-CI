@@ -40,20 +40,20 @@ jobs:
             --min_samples_split 2
 
       # 6. Upload artifacts
-      - name: Upload MLflow artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: mlflow-artifacts
-          path: |
-            mlruns/
-            outputs/
+      - name: Commit artifacts
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add MLProject/mlruns/ MLProject/outputs/ || true
+          git diff --staged --quiet || git commit -m "Auto update MLflow artifacts"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
       # 7. Commit artifacts
       - name: Commit artifacts
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add mlruns/ outputs/ || true
+          git add MLProject/mlruns/ MLProject/outputs/ || true
           git diff --staged --quiet || git commit -m "Auto update MLflow artifacts"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
@@ -71,9 +71,10 @@ jobs:
       # 10. Build Docker Image
       - name: Build Docker Image
         run: |
+          RUN_ID=$(ls MLProject/mlruns/0/ | grep -v meta | head -1)
           mlflow models build-docker \
-          --model-uri "mlruns/*/*/artifacts/model" \
-          --name ${{ secrets.DOCKER_USERNAME }}/credit-risk-model:latest
+            --model-uri "MLProject/mlruns/0/${RUN_ID}/artifacts/model" \
+            --name ${{ secrets.DOCKER_USERNAME }}/credit-risk-model:latest
 
       # 11. Push Docker Image
       - name: Push Docker Image
