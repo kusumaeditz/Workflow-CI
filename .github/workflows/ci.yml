@@ -24,7 +24,7 @@ jobs:
 
       - name: Clean mlruns
         run: |
-          rm -rf mlruns outputs
+          rm -rf mlruns outputs MLProject/mlruns MLProject/outputs
 
       - name: Run Training
         run: |
