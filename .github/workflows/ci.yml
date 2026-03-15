@@ -27,7 +27,10 @@ jobs:
           rm -rf mlruns outputs MLProject/mlruns MLProject/outputs
 
       - name: Run Training
+        env:
+          MLFLOW_RUN_ID: ""
         run: |
+          unset MLFLOW_RUN_ID || true
           mlflow run MLProject --env-manager=local
 
       - name: Commit artifacts
