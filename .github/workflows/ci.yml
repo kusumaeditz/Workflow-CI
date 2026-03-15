@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mlflow==2.19.0 scikit-learn pandas numpy matplotlib seaborn
+          pip install mlflow==2.16.0 scikit-learn pandas numpy matplotlib seaborn
 
       - name: Clean mlruns
         run: |
