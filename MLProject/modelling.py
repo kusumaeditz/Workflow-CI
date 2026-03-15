@@ -26,8 +26,7 @@ parser.add_argument("--max_depth", type=int, default=0)
 parser.add_argument("--min_samples_split", type=int, default=2)
 args = parser.parse_args()
 
-mlflow.set_tracking_uri("mlruns")
-mlflow.set_experiment("credit_risk_ci")
+with mlflow.start_run():
 
 train = pd.read_csv("credit_risk_dataset_preprocessing/train.csv")
 test = pd.read_csv("credit_risk_dataset_preprocessing/test.csv")
