@@ -52,13 +52,13 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          MODEL_PATH=$(find MLProject/mlruns -name "MLmodel" | head -1 | xargs dirname)
+          MODEL_PATH=$(find . -name "MLmodel" | head -1 | xargs dirname)
           echo "Model path: $MODEL_PATH"
           mlflow models build-docker \
             --model-uri "$MODEL_PATH" \
             --name ${{ secrets.DOCKER_USERNAME }}/credit-risk-model:latest \
             --env-manager local
-
+            
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/credit-risk-model:latest
